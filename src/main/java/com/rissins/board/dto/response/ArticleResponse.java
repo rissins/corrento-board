@@ -22,18 +22,20 @@ public class ArticleResponse {
     private String location;
 
     public List<ArticleResponse> fromEntity(List<Article> articles) {
-        return articles.stream().map(article -> ArticleResponse.builder()
-                .name(article.getBoard().getName())
-                .title(article.getTitle())
-                .createdDateTime(article.getCreatedDatetime())
-                .location
-                        (
-                                article.getAttachments()
-                                        .stream()
-                                        .findFirst()
-                                        .orElseThrow(AttachmentNotFoundException::new)
-                                        .getLocation()
-                        )
-                .build()).collect(Collectors.toList());
+        return articles.stream()
+                .map(article -> ArticleResponse.builder()
+                        .name(article.getBoard().getName())
+                        .title(article.getTitle())
+                        .createdDateTime(article.getCreatedDatetime())
+                        .location
+                                (
+                                        article.getAttachments()
+                                                .stream()
+                                                .findFirst()
+                                                .orElseThrow(AttachmentNotFoundException::new)
+                                                .getLocation()
+                                )
+                        .build())
+                .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package com.rissins.board.service;
 
 import com.rissins.board.domain.Article;
+import com.rissins.board.domain.Board;
 import com.rissins.board.dto.response.ArticleDetailResponse;
 import com.rissins.board.dto.response.ArticleResponse;
 import com.rissins.board.exception.ArticleNotFoundException;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final BoardService boardService;
 
     public void save(Article article) {
         articleRepository.save(article);
@@ -36,5 +38,16 @@ public class ArticleService {
         return articleRepository.findById(id).orElseThrow(() ->
                 new ArticleNotFoundException(id)
         );
+    }
+
+    public List<Article> findAllByBoardName(String boardName) {
+        List<Board> boards = boardService.findAllFilterName(boardName);
+        return articleRepository.findByBoardIn(boards);
+//        Board board = boardService.findByName(boardName);
+//        return articleRepository.findAllByBoard(board);
+    }
+
+    public void delete(Long id) {
+        articleRepository.deleteById(id);
     }
 }

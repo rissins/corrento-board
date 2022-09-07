@@ -1,5 +1,6 @@
 package com.rissins.board.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,7 +38,7 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Board board;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Attachment> attachments = new ArrayList<>();
 
