@@ -1,6 +1,7 @@
 package com.rissins.board.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rissins.board.dto.request.ArticleUpdateRequest;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -44,5 +45,10 @@ public class Article {
 
     public void addAttachment(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public void updateTitleAndContent(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

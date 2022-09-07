@@ -4,6 +4,7 @@ import com.rissins.board.domain.Article;
 import com.rissins.board.domain.Attachment;
 import com.rissins.board.domain.Board;
 import com.rissins.board.dto.request.ArticleSaveRequest;
+import com.rissins.board.dto.request.ArticleUpdateRequest;
 import com.rissins.board.dto.response.ArticleDetailResponse;
 import com.rissins.board.dto.response.ArticleResponse;
 import com.rissins.board.service.ArticleService;
@@ -32,7 +33,7 @@ public class ArticleRestController {
     public void save(@RequestBody ArticleSaveRequest articleSaveRequest) {
         List<Attachment> attachments = new ArrayList<>();
 
-        Board board = boardService.findByName(articleSaveRequest.getName());
+        Board board = boardService.findByName(articleSaveRequest.getBoardName());
 
         Article article = Article.builder()
                 .title(articleSaveRequest.getTitle())
@@ -85,8 +86,13 @@ public class ArticleRestController {
         return articleDetailResponse.fromEntity(articleService.findArticleById(id));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         articleService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable Long id, @RequestBody ArticleUpdateRequest articleUpdateRequest) {
+        articleService.update(id, articleUpdateRequest.getTitle(), articleUpdateRequest.getContent());
     }
 }

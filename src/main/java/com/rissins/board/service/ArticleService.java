@@ -50,4 +50,10 @@ public class ArticleService {
     public void delete(Long id) {
         articleRepository.deleteById(id);
     }
+
+    public void update(Long id, String title, String content) {
+        Article article = findArticleById(id);
+        article.updateTitleAndContent(title, content);
+        articleRepository.save(article);
+    }
 }
