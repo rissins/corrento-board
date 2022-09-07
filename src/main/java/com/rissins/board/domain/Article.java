@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class Article {
 
@@ -37,6 +38,7 @@ public class Article {
     private Board board;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Attachment> attachments = new ArrayList<>();
 
     public void addAttachment(List<Attachment> attachments) {

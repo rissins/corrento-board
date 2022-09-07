@@ -4,12 +4,14 @@ import com.rissins.board.domain.Article;
 import com.rissins.board.domain.Attachment;
 import com.rissins.board.domain.Board;
 import com.rissins.board.dto.request.BoardSaveRequest;
+import com.rissins.board.dto.response.ArticleDetailResponse;
 import com.rissins.board.dto.response.ArticleResponse;
 import com.rissins.board.service.ArticleService;
 import com.rissins.board.service.AttachmentService;
 import com.rissins.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -18,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/board")
 @Slf4j
 public class BoardRestController {
 
@@ -57,11 +60,24 @@ public class BoardRestController {
 
     @GetMapping
     public List<ArticleResponse> findAll() {
-        return articleService.findAll();
+        ArticleResponse articleResponse = new ArticleResponse();
+        return articleResponse.fromEntity(articleService.findAll());
     }
 
-//    @GetMapping
-//    public void findAllByRegDateBetween(@RequestParam LocalDateTime start, @RequestParam LocalDateTime end) {
-//
-//    }
+    @GetMapping
+//    public List<ArticleResponse> findAllByCreatedDatetimeBetween(@RequestParam
+    public List<ArticleResponse> findAll(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                         LocalDateTime startDateTime,
+                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                         LocalDateTime endDateTime) {
+        ArticleResponse articleResponse = new ArticleResponse();
+        return articleResponse.fromEntity(articleService.findAllByCreatedDatetimeBetween(startDateTime, endDateTime));
+
+    }
+
+    @GetMapping("/{id}")
+    public ArticleDetailResponse findArticleById(@PathVariable Long id) {
+        ArticleDetailResponse articleDetailResponse = new ArticleDetailResponse();
+        return articleDetailResponse.fromEntity(articleService.findArticleById(id));
+    }
 }

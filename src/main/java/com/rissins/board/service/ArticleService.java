@@ -1,11 +1,15 @@
 package com.rissins.board.service;
 
 import com.rissins.board.domain.Article;
+import com.rissins.board.dto.response.ArticleDetailResponse;
 import com.rissins.board.dto.response.ArticleResponse;
+import com.rissins.board.exception.ArticleNotFoundException;
+import com.rissins.board.exception.AttachmentNotFoundException;
 import com.rissins.board.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,13 +23,18 @@ public class ArticleService {
         articleRepository.save(article);
     }
 
-    public List<ArticleResponse> findAll() {
-        List<Article> articles = articleRepository.findAll();
+    public List<Article> findAll() {
+        return articleRepository.findAll();
 
-        return articles.stream().map(article -> ArticleResponse.builder()
-                .name(article.getBoard().getName())
-                .title(article.getTitle())
-                .createdDateTime(article.getCreatedDatetime())
-                .build()).collect(Collectors.toList());
+    }
+
+    public List<Article> findAllByCreatedDatetimeBetween(LocalDateTime start, LocalDateTime end) {
+        return articleRepository.findAllByCreatedDatetimeBetween(start, end);
+    }
+
+    public Article findArticleById(Long id) {
+        return articleRepository.findById(id).orElseThrow(() ->
+                new ArticleNotFoundException(id)
+        );
     }
 }

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class Attachment {
 
