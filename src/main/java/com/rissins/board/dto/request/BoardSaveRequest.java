@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Getter
@@ -13,6 +14,6 @@ public class BoardSaveRequest {
     private String title;
     private String content;
     private int viewCount;
-    private String location;
-    private LocalDateTime localDateTime;
+    private List<String> location;
+    private LocalDateTime localDatetime;
 }

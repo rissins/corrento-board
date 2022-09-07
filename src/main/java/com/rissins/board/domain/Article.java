@@ -6,6 +6,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,8 +31,15 @@ public class Article {
     private int viewCount;
 
     @CreatedDate
-    private LocalDateTime localDateTime;
+    private LocalDateTime createdDatetime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Board board;
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<Attachment> attachments = new ArrayList<>();
+
+    public void addAttachment(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
 }
