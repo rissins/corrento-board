@@ -6,7 +6,9 @@ import com.rissins.board.dto.response.ArticleDetailResponse;
 import com.rissins.board.dto.response.ArticleResponse;
 import com.rissins.board.exception.ArticleNotFoundException;
 import com.rissins.board.exception.AttachmentNotFoundException;
+import com.rissins.board.repository.ArticleCustomRepositoryImpl;
 import com.rissins.board.repository.ArticleRepository;
+import com.rissins.board.repository.search_condition.SearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final BoardService boardService;
+    private final ArticleCustomRepositoryImpl articleCustomRepository;
 
     public void save(Article article) {
         articleRepository.save(article);
@@ -55,5 +58,9 @@ public class ArticleService {
         Article article = findArticleById(id);
         article.updateTitleAndContent(title, content);
         articleRepository.save(article);
+    }
+
+    public List<Article> findAllByQuerydsl(SearchCondition searchCondition) {
+        return articleCustomRepository.search(searchCondition);
     }
 }

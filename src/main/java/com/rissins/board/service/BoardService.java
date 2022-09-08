@@ -23,6 +23,10 @@ public class BoardService {
     }
 
     public List<Board> findAllFilterName(String name) {
-        return boardRepository.findAll().stream().filter(board -> board.getName().contains(name)).collect(Collectors.toList());
+        return boardRepository.findAll()
+                .stream()
+                .filter(board ->
+                        board.getName().contains(name))
+                .collect(Collectors.toList());
     }
 }

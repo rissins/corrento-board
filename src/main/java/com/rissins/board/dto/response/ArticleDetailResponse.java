@@ -22,7 +22,7 @@ public class ArticleDetailResponse {
     private LocalDateTime createdDateTime;
     private List<String> location;
 
-    public ArticleDetailResponse fromEntity(Article article) {
+    public static ArticleDetailResponse fromEntity(Article article) {
         return ArticleDetailResponse.builder()
                 .name(article.getBoard().getName())
                 .title(article.getTitle())
