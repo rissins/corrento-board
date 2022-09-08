@@ -1,5 +1,7 @@
 package com.rissins.board.dto.request;
 
+import com.rissins.board.domain.Article;
+import com.rissins.board.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,10 +15,16 @@ import java.util.List;
 @AllArgsConstructor
 public class ArticleSaveRequest {
 
-    private String boardName;
+    private Long boardId;
     private String title;
     private String content;
-    private int viewCount;
-    private List<String> location;
-//    private LocalDateTime localDatetime;
+    private List<String> locations;
+
+    public Article toEntity(Board board) {
+        return Article.builder()
+                .board(board)
+                .content(content)
+                .title(title)
+                .build();
+    }
 }

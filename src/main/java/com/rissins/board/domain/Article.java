@@ -1,7 +1,5 @@
 package com.rissins.board.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rissins.board.dto.request.ArticleUpdateRequest;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -31,7 +29,7 @@ public class Article {
     private String content;
 
     @Column
-    private int viewCount;
+    private int viewCount = 0;
 
     @CreatedDate
     private LocalDateTime createdDatetime;
@@ -43,8 +41,8 @@ public class Article {
     @ToString.Exclude
     private List<Attachment> attachments = new ArrayList<>();
 
-    public void addAttachment(List<Attachment> attachments) {
-        this.attachments = attachments;
+    public void addAttachments(List<Attachment> attachments) {
+        this.attachments.addAll(attachments);
     }
 
     public void updateTitleAndContent(String title, String content) {

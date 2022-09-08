@@ -9,10 +9,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface ArticleRepository extends JpaRepository<Article, Long> {
-    List<Article> findAllByCreatedDatetimeBetween(LocalDateTime start, LocalDateTime end);
-
-    List<Article> findAllByBoard(Board board);
-
-    List<Article> findByBoardIn(List<Board> boards);
+public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleCustomRepository {
 }

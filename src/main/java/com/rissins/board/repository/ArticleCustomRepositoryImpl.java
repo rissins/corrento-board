@@ -30,8 +30,6 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
             booleanBuilder.and(article.createdDatetime.between(searchCondition.getStartDateTime(), searchCondition.getEndDateTime()));
         }
 
-//        article.board.name.eq(searchRequest.getBoardName()),
-//                article.createdDatetime.between(searchRequest.getStartDateTime(), searchRequest.getEndDateTime())
         return queryFactory
                 .selectFrom(article)
                 .innerJoin(article.board)
