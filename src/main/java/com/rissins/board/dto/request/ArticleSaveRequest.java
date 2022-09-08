@@ -2,17 +2,16 @@ package com.rissins.board.dto.request;
 
 import com.rissins.board.domain.Article;
 import com.rissins.board.domain.Board;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ArticleSaveRequest {
 
     private Long boardId;
@@ -20,9 +19,8 @@ public class ArticleSaveRequest {
     private String content;
     private List<String> locations;
 
-    public Article toEntity(Board board) {
+    public Article toEntity() {
         return Article.builder()
-                .board(board)
                 .content(content)
                 .title(title)
                 .build();

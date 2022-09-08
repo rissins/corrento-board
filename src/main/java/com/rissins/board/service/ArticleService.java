@@ -1,6 +1,8 @@
 package com.rissins.board.service;
 
 import com.rissins.board.domain.Article;
+import com.rissins.board.domain.Attachment;
+import com.rissins.board.domain.Board;
 import com.rissins.board.exception.ArticleNotFoundException;
 import com.rissins.board.exception.ArticleUpdateContentDuplicateException;
 import com.rissins.board.repository.ArticleRepository;
@@ -10,15 +12,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final BoardService boardService;
 
     @Transactional
-    public void save(Article article) {
+    public void save(Long boardId, Article article, List<String> locations) {
+        Board board = boardService.findById(boardId);
+        article.addBoard(board);
+        List<Attachment> attachments = locations.stream()
+                .map(location ->
+                        Attachment.builder()
+                                .article(article)
+                                .location(location)
+                                .build())
+                .collect(Collectors.toList());
+        article.addAttachments(attachments);
         articleRepository.save(article);
     }
 
@@ -51,5 +66,18 @@ public class ArticleService {
 
     private Boolean validContentDuplication(String beforeContent, String updateContent) {
         return beforeContent.equals(updateContent);
+    }
+
+    @Transactional
+    public Article findWithOptimisticLockByIdAndViewCountUpdate(Long id) {
+        //낙관적락 적용
+        Article article = articleRepository.findWithOptimisticLockById(id).orElseThrow(() ->
+                new ArticleNotFoundException(id)
+        );
+        //조회수 증가 및 적용
+        int viewCount = article.getViewCount();
+        viewCount++;
+        article.updateViewCount(viewCount);
+        return article;
     }
 }

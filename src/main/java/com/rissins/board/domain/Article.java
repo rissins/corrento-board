@@ -31,6 +31,9 @@ public class Article {
     @Column
     private int viewCount = 0;
 
+    @Version
+    private Long version;
+
     @CreatedDate
     private LocalDateTime createdDatetime;
 
@@ -42,11 +45,19 @@ public class Article {
     private List<Attachment> attachments = new ArrayList<>();
 
     public void addAttachments(List<Attachment> attachments) {
-        this.attachments.addAll(attachments);
+        this.attachments = attachments;
+    }
+
+    public void addBoard(Board board) {
+        this.board = board;
     }
 
     public void updateTitleAndContent(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void updateViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }

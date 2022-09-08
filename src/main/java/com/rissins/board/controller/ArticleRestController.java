@@ -10,14 +10,11 @@ import com.rissins.board.repository.search_condition.SearchCondition;
 import com.rissins.board.dto.response.ArticleDetailResponse;
 import com.rissins.board.dto.response.ArticleResponse;
 import com.rissins.board.service.ArticleService;
-import com.rissins.board.service.AttachmentService;
-import com.rissins.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,27 +22,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ArticleRestController {
 
-    private final BoardService boardService;
-    private final AttachmentService attachmentService;
     private final ArticleService articleService;
 
     @PostMapping
     public void save(@RequestBody ArticleSaveRequest articleSaveRequest) {
-        //save안에 넣기
-        Board board = boardService.findById(articleSaveRequest.getBoardId());
-
-        Article article = articleSaveRequest.toEntity(board);
-        List<Attachment> attachments = articleSaveRequest.getLocations()
-                .stream()
-                .map(location ->
-                        Attachment.builder()
-                                .article(article)
-                                .location(location)
-                                .build())
-                .collect(Collectors.toList());
-
-        article.addAttachments(attachments);
-        articleService.save(article);
+        Article article = articleSaveRequest.toEntity();
+        articleService.save(articleSaveRequest.getBoardId(), article, articleSaveRequest.getLocations());
     }
 
     @GetMapping("/search")
@@ -60,9 +42,7 @@ public class ArticleRestController {
 
     @GetMapping("/{id}")
     public ArticleDetailResponse findArticleById(@PathVariable Long id) {
-        //낙관적락 적용하기
-        //조회수 오르기 추가
-        Article article = articleService.findById(id);
+        Article article = articleService.findWithOptimisticLockByIdAndViewCountUpdate(id);
 
         return ArticleDetailResponse.fromEntity(article);
     }

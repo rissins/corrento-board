@@ -20,9 +20,7 @@ public class BoardRestController {
 
     @PostMapping
     public void save(@RequestBody BoardSaveRequest boardSaveRequest) {
-        Board board = Board.builder()
-                .name(boardSaveRequest.getName())
-                .build();
+        Board board = boardSaveRequest.fromEntity();
 
         boardService.save(board);
     }
