@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.rissins.board.domain.Article;
 import com.rissins.board.repository.search_condition.SearchCondition;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Article> search(SearchCondition searchCondition) {
+    public List<Article> search(SearchCondition searchCondition, Pageable pageable) {
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
@@ -37,6 +38,8 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
                 .where(
                         booleanBuilder
                 )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 }

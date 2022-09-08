@@ -1,8 +1,6 @@
 package com.rissins.board.controller;
 
 import com.rissins.board.domain.Article;
-import com.rissins.board.domain.Attachment;
-import com.rissins.board.domain.Board;
 import com.rissins.board.dto.request.ArticleSaveRequest;
 import com.rissins.board.dto.request.ArticleUpdateRequest;
 import com.rissins.board.dto.request.SearchRequest;
@@ -12,6 +10,8 @@ import com.rissins.board.dto.response.ArticleResponse;
 import com.rissins.board.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,11 +31,11 @@ public class ArticleRestController {
     }
 
     @GetMapping("/search")
-    public List<ArticleResponse> search(SearchRequest searchRequest) {
-        //페이징 추가
+    public List<ArticleResponse> search(@PageableDefault(size = 30) Pageable pageable,
+                                        SearchRequest searchRequest) {
         SearchCondition searchCondition = searchRequest.toSearchCondition();
 
-        List<Article> articles = articleService.search(searchCondition);
+        List<Article> articles = articleService.search(searchCondition, pageable);
 
         return ArticleResponse.fromEntity(articles);
     }

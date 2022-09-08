@@ -8,11 +8,11 @@ import com.rissins.board.exception.ArticleUpdateContentDuplicateException;
 import com.rissins.board.repository.ArticleRepository;
 import com.rissins.board.repository.search_condition.SearchCondition;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,8 +60,8 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    public List<Article> search(SearchCondition searchCondition) {
-        return articleRepository.search(searchCondition);
+    public List<Article> search(SearchCondition searchCondition, Pageable pageable) {
+        return articleRepository.search(searchCondition, pageable);
     }
 
     private Boolean validContentDuplication(String beforeContent, String updateContent) {

@@ -1,7 +1,6 @@
 package com.rissins.board.dto.request;
 
 import com.rissins.board.domain.Article;
-import com.rissins.board.domain.Board;
 import lombok.*;
 
 import java.util.List;
