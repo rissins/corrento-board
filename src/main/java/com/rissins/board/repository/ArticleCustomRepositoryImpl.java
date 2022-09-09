@@ -6,14 +6,14 @@ import com.rissins.board.domain.Article;
 import com.rissins.board.repository.search_condition.SearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.rissins.board.domain.QArticle.article;
 
+@Repository
 @RequiredArgsConstructor
-@Component
 public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
 
     private final JPAQueryFactory queryFactory;
@@ -24,7 +24,7 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
         if (searchCondition.getBoardName() != null) {
-            booleanBuilder.and(article.board.name.eq(searchCondition.getBoardName()));
+            booleanBuilder.and(article.board.name.in(searchCondition.getBoardNames()));
         }
 
         if (searchCondition.getStartDateTime() != null && searchCondition.getEndDateTime() != null) {

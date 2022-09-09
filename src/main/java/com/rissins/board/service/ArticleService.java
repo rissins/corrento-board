@@ -61,11 +61,10 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public List<Article> search(SearchCondition searchCondition, Pageable pageable) {
+        //게시판명의 일부분으로 검색된 게시판명
+        List<String> boardNameWithFilterName = boardService.findBoardNameWithFilterName(searchCondition.getBoardName());
+        searchCondition.addBoardNames(boardNameWithFilterName);
         return articleRepository.search(searchCondition, pageable);
-    }
-
-    private Boolean validContentDuplication(String beforeContent, String updateContent) {
-        return beforeContent.equals(updateContent);
     }
 
     @Transactional
@@ -74,10 +73,15 @@ public class ArticleService {
         Article article = articleRepository.findWithOptimisticLockById(id).orElseThrow(() ->
                 new ArticleNotFoundException(id)
         );
+
         //조회수 증가 및 적용
         int viewCount = article.getViewCount();
         viewCount++;
         article.updateViewCount(viewCount);
         return article;
+    }
+
+    private Boolean validContentDuplication(String beforeContent, String updateContent) {
+        return beforeContent.equals(updateContent);
     }
 }

@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -22,5 +25,15 @@ public class BoardService {
         return boardRepository.findById(id).orElseThrow(() ->
                 new BoardNotFoundException(id)
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> findBoardNameWithFilterName(String name) {
+        return boardRepository.findAll()
+                .stream()
+                .map(Board::getName)
+                .filter(boardName ->
+                        boardName.contains(name))
+                .collect(Collectors.toList());
     }
 }
