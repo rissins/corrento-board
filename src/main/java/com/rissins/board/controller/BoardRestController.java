@@ -18,6 +18,9 @@ public class BoardRestController {
 
     private final BoardService boardService;
 
+    /**
+     * 게시판 저장
+     */
     @PostMapping
     public void save(@RequestBody BoardSaveRequest boardSaveRequest) {
         Board board = boardSaveRequest.fromEntity();
