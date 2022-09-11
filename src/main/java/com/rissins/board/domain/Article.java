@@ -53,6 +53,9 @@ public class Article {
     }
 
     public void updateTitleAndContent(String title, String content) {
+        if (title == null || content == null) {
+            throw new IllegalArgumentException("입력된 수정내용이 없습니다.");
+        }
         this.title = title;
         this.content = content;
     }

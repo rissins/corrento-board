@@ -19,6 +19,9 @@ public class ArticleSaveRequest {
     private List<String> locations;
 
     public Article toEntity() {
+        if (title == null || content == null) {
+            throw new IllegalArgumentException("입력된 내용이 없습니다.");
+        }
         return Article.builder()
                 .content(content)
                 .title(title)

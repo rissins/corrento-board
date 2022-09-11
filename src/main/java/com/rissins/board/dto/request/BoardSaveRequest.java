@@ -15,6 +15,9 @@ public class BoardSaveRequest {
     private String name;
 
     public Board fromEntity() {
+        if (name == null) {
+            throw new IllegalArgumentException("입력된 내용이 없습니다.");
+        }
         return Board.builder()
                 .name(name)
                 .build();
