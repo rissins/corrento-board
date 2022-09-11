@@ -1,6 +1,5 @@
 package com.rissins.board.repository.search_condition;
 
-import com.rissins.board.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,10 +16,5 @@ public class SearchCondition {
 
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    private String boardName;
     private List<String> boardNames;
-
-    public void addBoardNames(List<String> boardNames) {
-        this.boardNames = boardNames;
-    }
 }

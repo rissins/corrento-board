@@ -21,6 +21,7 @@ public class BoardService {
         boardRepository.save(board);
     }
 
+    @Transactional(readOnly = true)
     public Board findById(Long id) {
         return boardRepository.findById(id).orElseThrow(() ->
                 new BoardNotFoundException(id)

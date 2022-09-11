@@ -7,6 +7,7 @@ import com.rissins.board.dto.request.SearchRequest;
 import com.rissins.board.repository.search_condition.SearchCondition;
 import com.rissins.board.dto.response.ArticleDetailResponse;
 import com.rissins.board.dto.response.ArticleResponse;
+import com.rissins.board.repository.search_condition.SearchConditionAssembler;
 import com.rissins.board.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ArticleRestController {
 
     private final ArticleService articleService;
+    private final SearchConditionAssembler searchConditionAssembler;
 
     /**
      * 게시글 저장
@@ -44,8 +46,7 @@ public class ArticleRestController {
     @GetMapping("/search")
     public List<ArticleResponse> search(@PageableDefault(size = 30) Pageable pageable,
                                         SearchRequest searchRequest) {
-        SearchCondition searchCondition = searchRequest.toSearchCondition();
-
+        SearchCondition searchCondition = searchConditionAssembler.fromSearchRequest(searchRequest);
         List<Article> articles = articleService.search(searchCondition, pageable);
 
         return ArticleResponse.fromEntity(articles);

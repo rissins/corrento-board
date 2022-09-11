@@ -7,6 +7,7 @@ import com.rissins.board.exception.ArticleNotFoundException;
 import com.rissins.board.exception.ArticleUpdateContentDuplicateException;
 import com.rissins.board.repository.ArticleRepository;
 import com.rissins.board.repository.search_condition.SearchCondition;
+import com.rissins.board.repository.search_condition.SearchConditionAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -61,11 +62,6 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public List<Article> search(SearchCondition searchCondition, Pageable pageable) {
-        //게시판명의 일부분으로 검색된 게시판명
-        if (searchCondition.getBoardName() != null) {
-            List<String> boardNameWithFilterName = boardService.findBoardNameWithFilterName(searchCondition.getBoardName());
-            searchCondition.addBoardNames(boardNameWithFilterName);
-        }
         return articleRepository.search(searchCondition, pageable);
     }
 
@@ -77,9 +73,7 @@ public class ArticleService {
         );
 
         //조회수 증가 및 적용
-        int viewCount = article.getViewCount();
-        viewCount++;
-        article.updateViewCount(viewCount);
+        article.increaseViewCount();
         return article;
     }
 

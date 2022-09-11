@@ -60,7 +60,7 @@ public class Article {
         this.content = content;
     }
 
-    public void updateViewCount(int viewCount) {
-        this.viewCount = viewCount;
+    public void increaseViewCount() {
+        this.viewCount++;
     }
 }
