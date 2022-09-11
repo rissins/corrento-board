@@ -75,6 +75,6 @@ public class ArticleRestController {
      */
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody ArticleUpdateRequest articleUpdateRequest) {
-        articleService.update(id, articleUpdateRequest.getContent());
+        articleService.update(id, articleUpdateRequest.getContent(), articleUpdateRequest.getTitle());
     }
 }

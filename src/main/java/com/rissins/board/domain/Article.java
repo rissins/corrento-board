@@ -62,6 +62,10 @@ public class Article {
         this.content = updateContent;
     }
 
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
     public Boolean validContentDuplication(String updateContent) {
         if (updateContent == null) {
             throw new IllegalArgumentException("입력된 수정내용이  없습니다.");

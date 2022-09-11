@@ -50,9 +50,9 @@ public class ArticleService {
     }
 
     @Transactional
-    public void update(Long id, String content) {
+    public void update(Long id, String content, String title) {
         Article article = findById(id);
-
+        article.updateTitle(title);
         if (article.validContentDuplication(content)) {
             article.updateContent(content);
         } else {
