@@ -1,0 +1,71 @@
+### 게시글등록 - 자유1게시판
+POST localhost:8080/api/v1/article
+Content-Type: application/json
+
+{
+  "boardId": 1,
+  "title": "자유1게시판 테스트제목",
+  "content": "자유1게시판 테스트내용",
+  "locations": [
+    "바탕화면",
+    "내문서"
+  ]
+}
+
+### 게시글등록 - 자유2게시판
+POST localhost:8080/api/v1/article
+Content-Type: application/json
+
+{
+  "boardId": 2,
+  "title": "자유2게시판 테스트제목",
+  "content": "자유2게시판 테스트내용",
+  "locations": [
+    "바탕화면",
+    "내문서"
+  ]
+}
+
+### 게시글등록 - 익명게시판
+POST localhost:8080/api/v1/article
+Content-Type: application/json
+
+{
+  "boardId": 3,
+  "title": "익명게시판 테스트제목",
+  "content": "익명게시판 테스트내용",
+  "locations": [
+    "바탕화면",
+    "내문서"
+  ]
+}
+
+### 게시글조회 - 전체
+GET localhost:8080/api/v1/article/search
+Content-Type: application/json
+
+### 게시글조회 - 게시판이름
+GET localhost:8080/api/v1/article/search?boardName=자유
+Content-Type: application/json
+
+### 게시글조회 - 등록시간
+GET localhost:8080/api/v1/article/search?boardName=자유
+Content-Type: application/json
+
+### 게시글상세조회
+GET localhost:8080/api/v1/article/1
+Content-Type: application/json
+
+### 게시글 수정
+PUT localhost:8080/api/v1/article/1
+Content-Type: application/json
+
+{
+  "title": "수정된 테스트제목",
+  "content": "수정된 테스트제목"
+}
+
+### 게시글 삭제
+DELETE localhost:8080/api/v1/article/1
+Content-Type: application/json
+
