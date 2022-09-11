@@ -7,7 +7,6 @@ import com.rissins.board.exception.ArticleNotFoundException;
 import com.rissins.board.exception.ArticleUpdateContentDuplicateException;
 import com.rissins.board.repository.ArticleRepository;
 import com.rissins.board.repository.search_condition.SearchCondition;
-import com.rissins.board.repository.search_condition.SearchConditionAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -53,8 +52,12 @@ public class ArticleService {
     @Transactional
     public void update(Long id, String content) {
         Article article = findById(id);
-        article.validContentDuplicationAndUpdate(id, content);
-        articleRepository.save(article);
+
+        if (article.validContentDuplication(content)) {
+            article.updateContent(content);
+        } else {
+            throw new ArticleUpdateContentDuplicateException(id);
+        }
     }
 
     @Transactional(readOnly = true)
@@ -63,7 +66,7 @@ public class ArticleService {
     }
 
     @Transactional
-    public Article findWithOptimisticLockByIdAndViewCountUpdate(Long id) {
+    public Article findWithOptimisticLockByIdAndIncreaseViewCount(Long id) {
         //낙관적락 적용
         Article article = articleRepository.findWithOptimisticLockById(id).orElseThrow(() ->
                 new ArticleNotFoundException(id)

@@ -57,7 +57,7 @@ public class ArticleRestController {
      */
     @GetMapping("/{id}")
     public ArticleDetailResponse findArticleById(@PathVariable Long id) {
-        Article article = articleService.findWithOptimisticLockByIdAndViewCountUpdate(id);
+        Article article = articleService.findWithOptimisticLockByIdAndIncreaseViewCount(id);
 
         return ArticleDetailResponse.fromEntity(article);
     }
@@ -75,6 +75,6 @@ public class ArticleRestController {
      */
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody ArticleUpdateRequest articleUpdateRequest) {
-        articleService.update(id, articleUpdateRequest.getTitle(), articleUpdateRequest.getContent());
+        articleService.update(id, articleUpdateRequest.getContent());
     }
 }
