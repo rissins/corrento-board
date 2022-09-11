@@ -69,3 +69,6 @@ Content-Type: application/json
 DELETE localhost:8080/api/v1/article/1
 Content-Type: application/json
 
+### 게시글조회 - 삭제 반영
+GET localhost:8080/api/v1/article/search
+Content-Type: application/json
