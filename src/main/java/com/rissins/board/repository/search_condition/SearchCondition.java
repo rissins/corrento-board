@@ -1,17 +1,14 @@
 package com.rissins.board.repository.search_condition;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Builder
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Builder
 public class SearchCondition {
 
     private LocalDateTime startDateTime;
