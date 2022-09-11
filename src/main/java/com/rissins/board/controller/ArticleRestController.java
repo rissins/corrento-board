@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -74,7 +75,7 @@ public class ArticleRestController {
      * 게시글 수정
      */
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody ArticleUpdateRequest articleUpdateRequest) {
+    public void update(@PathVariable Long id, @Valid @RequestBody ArticleUpdateRequest articleUpdateRequest) {
         articleService.update(id, articleUpdateRequest.getContent(), articleUpdateRequest.getTitle());
     }
 }
