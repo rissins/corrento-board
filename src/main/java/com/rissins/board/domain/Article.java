@@ -67,9 +67,6 @@ public class Article {
     }
 
     public Boolean validContentDuplication(String updateContent) {
-        if (updateContent == null) {
-            throw new IllegalArgumentException("입력된 수정내용이  없습니다.");
-        }
         return !this.content.equals(updateContent);
     }
 }
