@@ -1,5 +1,6 @@
 package com.rissins.board.domain;
 
+import com.rissins.board.exception.ArticleUpdateContentDuplicateException;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -52,15 +53,19 @@ public class Article {
         this.board = board;
     }
 
-    public void updateTitleAndContent(String title, String content) {
-        if (title == null || content == null) {
-            throw new IllegalArgumentException("입력된 수정내용이 없습니다.");
-        }
-        this.title = title;
-        this.content = content;
-    }
-
     public void increaseViewCount() {
         this.viewCount++;
+    }
+
+    public void validContentDuplicationAndUpdate(Long id, String updateContent) {
+        if (updateContent == null) {
+            throw new IllegalArgumentException("입력된 수정내용이  없습니다.");
+        }
+
+        if (this.content.equals(updateContent)) {
+            throw new ArticleUpdateContentDuplicateException(id);
+        } else {
+            this.content = updateContent;
+        }
     }
 }

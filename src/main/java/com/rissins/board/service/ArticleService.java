@@ -51,12 +51,9 @@ public class ArticleService {
     }
 
     @Transactional
-    public void update(Long id, String title, String content) {
+    public void update(Long id, String content) {
         Article article = findById(id);
-        if (validContentDuplication(article.getContent(), content)) {
-            throw new ArticleUpdateContentDuplicateException(id);
-        }
-        article.updateTitleAndContent(title, content);
+        article.validContentDuplicationAndUpdate(id, content);
         articleRepository.save(article);
     }
 
@@ -75,9 +72,5 @@ public class ArticleService {
         //조회수 증가 및 적용
         article.increaseViewCount();
         return article;
-    }
-
-    private Boolean validContentDuplication(String beforeContent, String updateContent) {
-        return beforeContent.equals(updateContent);
     }
 }
