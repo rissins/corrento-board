@@ -1,7 +1,7 @@
 package com.rissins.board.domain;
 
-import com.rissins.board.exception.ArticleUpdateContentDuplicateException;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @ToString
+@DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 public class Article {
 
@@ -41,8 +42,8 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Board board;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Attachment> attachments = new ArrayList<>();
 
     public void addAttachments(List<Attachment> attachments) {
@@ -57,15 +58,14 @@ public class Article {
         this.viewCount++;
     }
 
-    public void validContentDuplicationAndUpdate(Long id, String updateContent) {
+    public void updateContent(String updateContent) {
+        this.content = updateContent;
+    }
+
+    public Boolean validContentDuplication(String updateContent) {
         if (updateContent == null) {
             throw new IllegalArgumentException("입력된 수정내용이  없습니다.");
         }
-
-        if (this.content.equals(updateContent)) {
-            throw new ArticleUpdateContentDuplicateException(id);
-        } else {
-            this.content = updateContent;
-        }
+        return !this.content.equals(updateContent);
     }
 }
