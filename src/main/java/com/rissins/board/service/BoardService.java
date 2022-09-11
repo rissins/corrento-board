@@ -27,7 +27,6 @@ public class BoardService {
         );
     }
 
-    @Transactional(readOnly = true)
     public List<String> findBoardNameWithFilterName(String name) {
         return boardRepository.findAll()
                 .stream()

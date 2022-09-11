@@ -23,7 +23,7 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        if (searchCondition.getBoardName() != null) {
+        if (searchCondition.getBoardNames() != null) {
             booleanBuilder.and(article.board.name.in(searchCondition.getBoardNames()));
         }
 

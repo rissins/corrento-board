@@ -62,8 +62,10 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public List<Article> search(SearchCondition searchCondition, Pageable pageable) {
         //게시판명의 일부분으로 검색된 게시판명
-        List<String> boardNameWithFilterName = boardService.findBoardNameWithFilterName(searchCondition.getBoardName());
-        searchCondition.addBoardNames(boardNameWithFilterName);
+        if (searchCondition.getBoardName() != null) {
+            List<String> boardNameWithFilterName = boardService.findBoardNameWithFilterName(searchCondition.getBoardName());
+            searchCondition.addBoardNames(boardNameWithFilterName);
+        }
         return articleRepository.search(searchCondition, pageable);
     }
 
