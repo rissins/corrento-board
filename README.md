@@ -1,6 +1,6 @@
 ## Run Process Docs
 
----
+
 1. application.yaml
     1. 로컬DB: url, username, password 확인
     2. `ddl-auto: update` 확인
