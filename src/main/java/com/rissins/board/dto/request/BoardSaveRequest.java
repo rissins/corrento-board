@@ -6,18 +6,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardSaveRequest {
 
+    @NotBlank(message = "입력된 게시판 이름이 없습니다.")
     private String name;
 
     public Board fromEntity() {
-        if (name == null) {
-            throw new IllegalArgumentException("입력된 내용이 없습니다.");
-        }
         return Board.builder()
                 .name(name)
                 .build();
