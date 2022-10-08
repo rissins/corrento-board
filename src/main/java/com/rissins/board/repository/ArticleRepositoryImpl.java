@@ -14,7 +14,7 @@ import static com.rissins.board.domain.QArticle.article;
 
 @Repository
 @RequiredArgsConstructor
-public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
+public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
